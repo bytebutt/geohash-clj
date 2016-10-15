@@ -9,7 +9,11 @@ Performance is not optimized for production use-cases.
 
 ## Installation
 
-TODO
+Add the desired version of this library to your `project.clj` file.
+
+```clojure
+[com.bytebutt/geohash-clj "1.0.0-SNAPSHOT"]
+```
 
 ## Usage
 
