@@ -1,6 +1,8 @@
 geohash-clj
 ===========
 
+[![Build Status](https://travis-ci.org/bytebutt/geohash-clj.svg?branch=develop)](https://travis-ci.org/bytebutt/geohash-clj)
+
 This library provides a Clojure implementation of [geohash](http://www.geohash.org) encoding and decoding.
 I wrote this library as a learning experience to help me understand the geohash algorithm.
 Performance is not optimized for production use-cases.
