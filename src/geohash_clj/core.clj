@@ -42,7 +42,7 @@
                (cons (bit-and n 1) binary))))))
 
 (defn- bits->char
-  "TODO: Add documentation."
+  "Converts the given vector of `bits` into a base32 character."
   [bits]
   (let [value (Integer/parseInt (apply str bits) 2)]
     (base10->base32 value)))
@@ -56,14 +56,15 @@
       bits)))
 
 (defn- bits->geohash
-  "TODO: Add documentation."
+  "Converts the given vector of `bits` into a geohash string."
   [bits]
   (->> (partition 5 bits)
        (map bits->char)
        (apply str)))
 
 (defn- split-bits
-  "TODO: Add documentation."
+  "Splits the given vector of `bits` into separate latitiude bits
+  and longitude bits."
   [bits]
   (loop [[lng lat & xs] bits
          lat-bits []
@@ -80,7 +81,8 @@
       (recur xs (conj lat-bits lat) (conj lng-bits lng)))))
 
 (defn- merge-bits
-  "TODO: Add documentation."
+  "Combines the given vectors of `lat-bits` and `lng-bits` into a single
+  vector of bits."
   [lat-bits lng-bits]
   (loop [[lat & lats] lat-bits
          [lng & lngs] lng-bits
@@ -97,7 +99,8 @@
       (recur lats lngs (conj result lng lat)))))
 
 (defn- bits->coordinate
-  "TODO: Add documentation."
+  "Converts the given vector of `bits` into a coordinate bounded by the given
+  `min` and `max` coordinate values."
   [bits min max]
   (loop [[x & xs] bits
          left min
@@ -115,7 +118,8 @@
         (recur xs mid right)))))
 
 (defn- coordinate->bits
-  "TODO: Add documentation."
+  "Converts the given `coordinate` with `min` and `max` coordinate values
+  into a vector of bits of length `num-bits`."
   [coordinate min max num-bits]
   (loop [left min
          right max
@@ -123,18 +127,19 @@
          result []]
     (let [mid (/ (+ left right) 2)]
       (cond
-        ; TODO
+        ; No bits remaining so return result.
         (zero? bits)
         result
-        ; TODO
+        ; Coordinate is less than midpoint, so 0 bit.
         (< coordinate mid)
         (recur left mid (dec bits) (conj result 0))
-        ; TODO
+        ; Coordinate is greater than midpoint, so 1 bit.
         :else
         (recur mid right (dec bits) (conj result 1))))))
 
 (defn- validate-encode
-  "TODO: Add documentation."
+  "Returns true if the given arguments are valid arguments for
+  geohash encoding, false otherwise."
   [latitude longitude precision]
   (and (<= LAT_MIN latitude) (<= latitude LAT_MAX)
        (<= LNG_MIN longitude) (<= longitude LNG_MAX)
